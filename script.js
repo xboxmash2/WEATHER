@@ -35,3 +35,35 @@ function getWeather() {
 
     fetchData(city);
 }
+/* ---------- SAVE HISTORY ---------- */
+        function saveHistory(city) {
+            let history = JSON.parse(localStorage.getItem("weatherHistory")) || [];
+
+            if (!history.includes(city)) {
+                history.unshift(city);
+            }
+
+            history = history.slice(0, 5);
+
+            localStorage.setItem("weatherHistory", JSON.stringify(history));
+
+            showHistory();
+        }
+
+        /* ---------- SHOW HISTORY ---------- */
+        function showHistory() {
+            const history = JSON.parse(localStorage.getItem("weatherHistory")) || [];
+
+            historyBox.innerHTML = "";
+
+            history.forEach(city => {
+                const btn = document.createElement("button");
+                btn.textContent = city;
+
+                btn.onclick = () => {
+                    search(city);
+                };
+
+                historyBox.appendChild(btn);
+            });
+        }
